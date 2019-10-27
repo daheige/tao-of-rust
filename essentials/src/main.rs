@@ -116,4 +116,21 @@ fn main() {
     assert_eq!(math(product, a, b), 6);
 
     assert_eq!(true_maker()(), true);
+
+    // 数组初始化必须在编译期就知道长度
+    let arr = [0; init_len(3)];
+    assert_eq!(arr.len(), 3 * 2);
+    let arr = [0; init_len(6)];
+    assert_eq!(arr.len(), 6 * 2);
 }
+
+// CTFE(Compile-Time Function Execution)，编译时函数执行
+// using CTFE we can determine array size dynamic
+// const关键字一般用于定义全局常量，const fn可以强制编译器在编译器执行函数
+const fn init_len(n: usize) -> usize {
+    return n * 2;
+}
+
+// trait Foo {}
+// const generics is experimental
+// impl<T, const N: usize> Foo for [T; N] {}
