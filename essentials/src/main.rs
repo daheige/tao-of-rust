@@ -122,6 +122,37 @@ fn main() {
     assert_eq!(arr.len(), 3 * 2);
     let arr = [0; init_len(6)];
     assert_eq!(arr.len(), 6 * 2);
+
+    // closure can capture environment vars which function can not.
+    let out = 42;
+    fn add(i: i32, j: i32) -> i32 {
+        i + j
+    }
+    let closure_annotated = |i: i32, j: i32| -> i32 { i + j + out };
+    let closure_inferred = |i, j| i + j + out;
+    let (i, j) = (1, 2);
+    assert_eq!(3, add(i, j));
+    assert_eq!(45, closure_annotated(i, j));
+    assert_eq!(45, closure_inferred(i, j));
+
+    let (a, b) = (2, 3);
+    assert_eq!(closure_math(|| a + b), 5);
+    assert_eq!(closure_math(|| a * b), 6);
+
+    let result = two_times_impl();
+    assert_eq!(result(3), 6);
+}
+
+// 使用了 impl Fn(i32) -> i32 作为返回类型，它表示实现实现了Fn(i32) -> i32的类型
+// 闭包的实现背后是一个隐式的结构体和一个trait，这里可以看成这个trait就是Fn(i32) -> i32
+fn two_times_impl() -> impl Fn(i32) -> i32 {
+    let i = 2;
+    // 如果返回需要用到函数内的ownership，则须要move进行转移
+    move |j| j * i
+}
+
+fn closure_math<F: Fn() -> i32>(op: F) -> i32 {
+    op()
 }
 
 // CTFE(Compile-Time Function Execution)，编译时函数执行
