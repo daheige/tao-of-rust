@@ -42,3 +42,40 @@
     + 底层操作接口，如 std::mem, std::ptr, std::intrinsics等，操作内存、指针、调用编译器函数
     + 可选和错误处理类型 Option, Result，以及iterator等
 5. 包管理器（cargo）
+
+### Rust索引
+
+#### 入门篇
+
+1. [《Rust 程序设计语言》（The Rust Programming Language）](https://doc.rust-lang.org/book/)
+2. [《通过例子学 Rust》（Rust by Example）](https://doc.rust-lang.org/stable/rust-by-example/)
+3. [《RustPrimer初级教程》](https://rustcc.gitbooks.io/rustprimer)
+
+#### 起步篇
+
+1. [《The Little Book of Rust Macros》](https://danielkeep.github.io/tlborm/book/index.html)
+2. [《Rust宏小册 中文版》](http://blog.luxko.site/tlborm-chinese/book/README.html)
+3. [《The Rustonomicon》（The Dark Arts of Unsafe Rust）](https://doc.rust-lang.org/nomicon/)
+4. [《Asynchronous Programming in Rust》](https://rust-lang.github.io/async-book/)
+
+#### 工程篇
+
+1. [《Cargo 帮助文档》](https://doc.rust-lang.org/cargo/index.html)
+2. [《rustdoc 帮助文档》](https://doc.rust-lang.org/rustdoc/index.html)
+3. [《rustc 帮助文档》](https://doc.rust-lang.org/rustc/index.html)
+4. [《Rust 编译错误索引》](https://doc.rust-lang.org/error-index.html)
+
+#### 参考篇
+
+1. [《Rust 语言参考》（The Rust Reference）](https://doc.rust-lang.org/reference/index.html)
+2. [《Rust RFCs》](https://rust-lang.github.io/rfcs/)
+3. [《Rust 版本指南》（The Edition Guide）](https://doc.rust-lang.org/edition-guide/index.html)
+4. [Rust Language Cheat Sheet](https://cheats.rs/)
+
+#### 频道篇
+
+1. [The Rust Programming Fortum](https://users.rust-lang.org/)
+2. [Rust语言中文社区](https://rust.cc/)
+3. [Rust Force CN](https://rustforce.net/)
+4. [This Week in Rust](https://this-week-in-rust.org/)
+5. [Baby Steps (Nicholas D. Matsakis)](http://smallcultfollowing.com/babysteps/)
