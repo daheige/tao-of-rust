@@ -203,6 +203,44 @@ fn primitive() {
     let arr = [0; 10];
     assert_eq!(arr.len(), 10);
     assert_eq!(0, arr[5]);
+
+    // range
+    assert_eq!((1..5), std::ops::Range { start: 1, end: 5 });
+    assert_eq!((1..=5), std::ops::RangeInclusive::new(1, 5));
+    assert_eq!(3 + 4 + 5, (3..6).sum());
+    assert_eq!(3 + 4 + 5 + 6, (3..=6).sum());
+    for i in (1..5) {
+        println!("{}", i);
+    }
+    for i in 1..=5 {
+        println!("{}", i);
+    }
+
+    // array
+    let arr = [1, 2, 3, 4, 5];
+    assert_eq!(&arr, &[1, 2, 3, 4, 5]);
+    assert_eq!(&arr[1..], &[2, 3, 4, 5]);
+    assert_eq!(arr[1..], [2, 3, 4, 5]);
+    let arr = &mut [1, 2, 3];
+    arr[1] = 7;
+    assert_eq!(arr, &[1, 7, 3]);
+    let vec = vec![1, 2, 3];
+    assert_eq!(vec[..], [1, 2, 3]);
+    assert_eq!(&vec[..], [1, 2, 3]);
+
+    // str String
+    // 处于内存安全的考虑，Rust将字符串分为两种类型，
+    // 一种是固定长度字符串，即str，通常以不可变借用的形式存在，&str，str硬编码到二进制文件中，&str是对二进制硬编码位置的地址引用
+    // 另一种是可变字符串，可随意改变其长度，就是String，String分配在堆上
+    let truth: &'static str = "Rust is a graceful language";
+    let ptr = truth.as_ptr();
+    let len = truth.len();
+    assert_eq!(27, len);
+    let s = unsafe {
+        let slice = std::slice::from_raw_parts(ptr, len);
+        std::str::from_utf8(slice)
+    };
+    assert_eq!(s, Ok(truth));
 }
 
 fn match_expr() {
