@@ -143,6 +143,40 @@ fn main() {
     assert_eq!(result(3), 6);
 
     flow_control();
+
+    match_expr();
+}
+
+fn match_expr() {
+    let number = 42;
+    match number {
+        0 => println!("Origin"),
+        1...3 => println!("All"),
+        1 | 5 | 7 | 13 => println!("Bad Luck"),
+        // 使用 @ 可以将分支的值绑定到变量，供分支右侧的代码使用，这类匹配叫做绑定模式 binding mode
+        n @ 42 => println!("Answer is {}", n),
+        _ => println!("Common"),
+    }
+
+    let boolean = true;
+    let mut binary = 0;
+    if let true = boolean {
+        binary = 1;
+    }
+    assert_eq!(binary, 1);
+
+    let mut v = vec![1, 2, 3, 4, 5];
+    loop {
+        match v.pop() {
+            Some(x) => println!("{}", x),
+            None => break,
+        }
+    }
+
+    let mut v = vec![1, 2, 3, 4, 5];
+    while let Some(x) = v.pop() {
+        println!("{}", x);
+    }
 }
 
 //fn while_true(x: i32) -> i32 {
