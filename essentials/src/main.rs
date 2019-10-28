@@ -143,8 +143,66 @@ fn main() {
     assert_eq!(result(3), 6);
 
     flow_control();
-
     match_expr();
+    primitive();
+}
+
+fn primitive() {
+    // bool
+    let x = true;
+    let y = false;
+    assert_eq!(x as i32, 1);
+    assert_eq!(y as i32, 0);
+
+    // 基本数字类型：
+    // 固定大小的类型：无符号整数 u8, u16, u32, u64, u128、有符号整数 i8, i16, i32, i64, i128
+    // 动态大小的类型：usize/isize: 占用4个字节或8个字节，取决于机器的字长
+    // 浮点数：f32, f64
+    let num = 42u32;
+    let num = 42;
+    let num = 0x2A; // 16进制
+    let num = 0o106; // 8进制
+    let num = 0b1101_1011; // 二进制
+    assert_eq!(b'*', 42u8); // 字节字面量
+    assert_eq!(b'\'', 39u8);
+    assert_eq!(b'\'' as u32, 39);
+    let num = 3.14159f64;
+    assert_eq!(-3.14, -3.14f64);
+    assert_eq!(2., 2.0f64);
+    assert_eq!(2e4, 20000f64);
+    println!("{:?}", std::f32::INFINITY);
+    println!("{:?}", std::f32::NEG_INFINITY);
+    println!("{:?}", std::f32::NAN);
+    println!("{:?}", std::f32::MIN);
+    println!("{:?}", std::f32::MAX);
+
+    // char
+    // Unicode标量值 每个字符占4个字节
+    let x = 'r';
+    let x = 'r';
+    println!("{}", '\'');
+    println!("{}", '\\');
+    println!("{}", '\n');
+    println!("{}", '\r');
+    println!("{}", '\t');
+    // 使用ASCII码来定义字符
+    // \x2A 是十六进制表示，格式为：\xHH
+    assert_eq!('\x2A', '*');
+    // \u{HH} 是Unicode十六进制码
+    println!("{}", '\u{151}');
+    assert_eq!('%' as i8, 37);
+
+    // array [T; N]
+    // 数组大小固定、元素均为同类型;
+    // 对于原始固定长度数组，只有impl Copy的T才能作为其元素，也就是说这些元素都存在栈上
+    let arr: [i32; 3] = [1, 2, 3];
+    let mut arr = [1, 2, 3];
+    assert_eq!(1, arr[0]);
+    arr[0] = 3;
+    assert_eq!(3, arr[0]);
+    let arr = [0; 10];
+    assert_eq!(arr.len(), 10);
+    assert_eq!(0, arr[5]);
 }
 
 fn match_expr() {
