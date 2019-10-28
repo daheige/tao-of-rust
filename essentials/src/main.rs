@@ -141,6 +141,44 @@ fn main() {
 
     let result = two_times_impl();
     assert_eq!(result(3), 6);
+
+    flow_control();
+}
+
+//fn while_true(x: i32) -> i32 {
+//    // con not compile, Compile-Time Function Execution not support while/if block.
+//    // so rustc only know while block return unit (), not the condition and its result return x + 1;
+//    while true {
+//        return x + 1;
+//    }
+//}
+
+// flow control expression
+fn flow_control() {
+    let n = 13;
+    let big_n = if n < 10 && n > -10 { 10 * n } else { n / 2 };
+    assert_eq!(big_n, 6);
+
+    for i in 1..=3 {
+        print!("{} ", i);
+    }
+
+    let mut i = 0;
+    while i < 3 {
+        print!("{} ", i);
+        i += 1;
+    }
+
+    let mut i = 0;
+    // 无限循环推荐使用loop而不是while(true)
+    loop {
+        print!("{} ", i);
+        i += 1;
+        if i >= 3 {
+            break;
+        }
+    }
+    println!();
 }
 
 // 使用了 impl Fn(i32) -> i32 作为返回类型，它表示实现实现了Fn(i32) -> i32的类型
