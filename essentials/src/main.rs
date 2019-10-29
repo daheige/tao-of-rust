@@ -241,6 +241,25 @@ fn primitive() {
         std::str::from_utf8(slice)
     };
     assert_eq!(s, Ok(truth));
+
+    // pointers: 表示内存地址的类型
+    // reference: 引用，本质是一种非空指针
+    // raw pointer: 原生指针，主要用于unsafe rust，分为 不可变原生指针 *const T 和可变原生指针 *mut T
+    // fn pointer: 函数指针
+    // smart pointer: 智能指针
+    let mut x = 10;
+    let ptr_x = &mut x;
+    println!("&mut x: {:?}", ptr_x); // 10
+    let ptr_x = &mut x as *mut i32; // mutable raw pointer
+    println!("*mut i32: {:?}", ptr_x); // 0x7ffee392cf7c
+    let y = Box::new(20); // alloc in heap
+    let ptr_y = &*y;
+    let ptr_y = ptr_y as *const i32; // immutable raw pointer
+    unsafe {
+        // raw pointer need to be cover by unsafe block
+        *ptr_x += *ptr_y;
+    }
+    assert_eq!(x, 30);
 }
 
 fn match_expr() {
