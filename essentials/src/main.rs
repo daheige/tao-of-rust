@@ -298,6 +298,41 @@ fn primitive() {
     assert_eq!(int.0, 10);
     let int: Int = 20;
     assert_eq!(int, 20);
+
+    let x = Empty;
+    println!("{:p}", &x);
+    let y = x;
+    println!("{:p}", &y);
+    let z = Empty;
+    println!("{:p}", &z);
+    assert_eq!((..), std::ops::RangeFull);
+
+    let x: fn(u8, u8, u8, u8) -> IpAddr = IpAddr::V4; // 函数指针
+    let home = IpAddr::V4(127, 0, 0, 1);
+}
+
+enum Number {
+    Zero,
+    One,
+    Two,
+}
+
+// c-like enum
+enum Color1 {
+    Red = 0xff0000,
+    Green = 0x00ff00,
+    Blue = 0x0000ff,
+}
+
+enum IpAddr {
+    // 携带了参数的枚举值，本质上属于函数指针类型
+    V4(u8, u8, u8, u8),
+    V6(String),
+}
+
+enum OptionInt {
+    Some(i32),
+    None,
 }
 
 // Tuple-Like struct, file no named
@@ -306,6 +341,9 @@ struct Color(i32, i32, i32);
 struct Integer(u32);
 // 可以使用type关键字为一个类型创建别名
 type Int = i32;
+// Rust中可以定义一个没有任何字段的结构体：单元结构体
+struct Empty;
+struct Empty1 {}
 
 // Named-Field struct
 #[derive(Debug, PartialEq)]
