@@ -50,6 +50,8 @@
 1. [《Rust 程序设计语言》（The Rust Programming Language）](https://doc.rust-lang.org/book/)
 2. [《通过例子学 Rust》（Rust by Example）](https://doc.rust-lang.org/stable/rust-by-example/)
 3. [《RustPrimer初级教程》](https://rustcc.gitbooks.io/rustprimer)
+4. [《Rust编程之道》](https://book.douban.com/subject/30418895/)
+5. [《深入浅出Rust》](https://book.douban.com/subject/30312231/)
 
 #### 起步篇
 
