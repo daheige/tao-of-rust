@@ -260,13 +260,91 @@ fn primitive() {
         *ptr_x += *ptr_y;
     }
     assert_eq!(x, 30);
+
+    // never type
+    let num: Option<u32> = Some(42u32);
+    match num {
+        Some(n) => n,
+        // match表达式要求所有分支都必须返回相同类型，而panic!宏其实返回的是never type，
+        // 编译器没有报错是因为never type可以强制转换为其他任何类型
+        None => panic!("Nothing"),
+    };
+
+    // 复合数据类型：
+    // tuple: 元组
+    // struct: 结构体：具名结构体 Named-Field Struct，元组结构体 Tuple-Link Struct，单元结构体 Unit-Like Struct
+    // enum: 枚举
+    // union: 联合体
+    let tuple = ("hello", 5, 'c');
+    assert_eq!(tuple.0, "hello");
+    let coords = (0, 1);
+    let result = move_coords(coords);
+    assert_eq!(result, (1, 2));
+    // let match pattern, destructure tuple
+    let (x, y) = result;
+    assert_eq!(x, 1);
+
+    let alex = People::new("Alex", 1);
+    // 面对对象消息通信模型receiver.message
+    println!("name: {:?}", alex.name());
+    alex.gender();
+
+    let color = Color(10, 20, 30);
+    assert_eq!(color.0, 10);
+    assert_eq!(color.1, 20);
+    assert_eq!(color.2, 30);
+
+    let int = Integer(10);
+    assert_eq!(int.0, 10);
+    let int: Int = 20;
+    assert_eq!(int, 20);
 }
+
+// Tuple-Like struct, file no named
+struct Color(i32, i32, i32);
+// 当元组结构体只有一个字段的时候，我们称之为New Type模式
+struct Integer(u32);
+// 可以使用type关键字为一个类型创建别名
+type Int = i32;
+
+// Named-Field struct
+#[derive(Debug, PartialEq)]
+struct People {
+    name: &'static str,
+    gender: u32,
+}
+
+impl People {
+    fn new(name: &'static str, gender: u32) -> Self {
+        People { name, gender }
+    }
+
+    fn name(&self) -> &'static str {
+        self.name
+    }
+
+    fn gender(&self) {
+        let gender = if self.gender == 1 { "boy" } else { "girl" };
+        println!("gender: {:?}", gender);
+    }
+}
+
+fn move_coords(x: (i32, i32)) -> (i32, i32) {
+    (x.0 + 1, x.1 + 1)
+}
+
+// `never` type, 用于表示永远不可能有返回值的计算类型，比如线程退出的时候就不会有返回值
+// never type 是一个试验特性
+//#[feature(never_type)]
+//fn foo() -> u32 {
+//    let x: ! = { return 123 };
+//}
 
 fn match_expr() {
     let number = 42;
     match number {
         0 => println!("Origin"),
-        1...3 => println!("All"),
+        1..=3 => println!("All"),
         1 | 5 | 7 | 13 => println!("Bad Luck"),
         // 使用 @ 可以将分支的值绑定到变量，供分支右侧的代码使用，这类匹配叫做绑定模式 binding mode
         n @ 42 => println!("Answer is {}", n),
