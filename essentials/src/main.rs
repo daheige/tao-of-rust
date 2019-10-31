@@ -1,3 +1,6 @@
+mod collections;
+mod smart_pointer;
+
 pub fn answer() -> () {
     // let创建的变量一般称为绑定binding，
     // 它表明了标识符identifier和值value之间建立的一个关联关系
