@@ -1,3 +1,28 @@
+//! generics and trait
+/// trait是唯一的接口抽象方式，trait将类型（数据）和行为明确的进行了区分，组合由于继承、面向接口编程
+/// ```fn_static<T: traitT>(o: T) {}``` 静态分发，在编译阶段会将实现了trait的类型进行展开，
+/// 对编译器来说有多少个类型实现就会有多少个展开，不是泛型的
+///
+/// ```fn_dyn(o: &traitT) {}``` 动态分发，在运行时查询实现了trait的相应类型，不过开销也很小
+///
+/// 另开销原则：如果你不使用某个抽象，就不用为它付出开销（静态分发）
+/// 如果你确实需要使用该抽象，可以保证这是开销最小的使用方式（动态分发）
+///
+/// Result<T, E> 是 Option<T> 类型的升级版本
+/// ```
+/// enum Result<T, E> {
+///     Ok(T)
+///     Err(E),
+/// }
+/// ```
+///
+/// Rust is an expression language, in Rust everything is an expression.
+/// 代码即文档，文档即代码。
+///
+/// Rust编译期对while循环条件不进行求值，只是认为其返回一个() unit类型，
+/// 所以在while里面直接返回类型是不被编译期捕捉到的，因为编译器认为while块可能进入也可能不进入
+/// 这是因为受到了CTFE功能的限制。如果需要使用无限循环，需要使用loop循环。
+///
 mod collections;
 mod smart_pointer;
 
