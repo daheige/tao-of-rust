@@ -20,6 +20,21 @@
 //! 子类型多态 -> 面向对象语言中继承的子类型的多态，如Java
 //!
 //! Rust支持泛型和trait，即参数化多态和Ad-hoc多态
+//!
+//! 底类型（Bottom Type）是源自类型理论的术语，它就是never类型，其特点是：
+//! - 没有值
+//! 是其他任意类型的子类型（即可以转成任意类型）
+//! 如果说ZST零大小类型表示"空"的话，那么Bottom Type就表示"无"
+//! Bottom Type没有值，而且它可以等价于任意类型，有点道生一一生三的意思
+//!
+//! 地类型用 ! 表示，此类型也被称为 Bang Type
+//! Rust中有很多种情况确实没有值，但是为了类型安全，必须把这些情况纳入类型系统进行统一处理，这些情况包括：
+//! 发散函数（Diverging Function，是指挥导致线程奔溃的panic!，或者用于退出函数的std::process::exit这类函数，
+//!     这类函数永远都不会有返回值
+//! continue/break也是类似的
+//! if分支中如果包含了永远无法返回的情况，那么此时也属于Bottom Type的一种
+//! 空枚举 enum Void{} 完全没有任何成员，因而无法对其变量进行绑定和初始化，所以它也是 Bottom Type
+//!
 
 fn main() {
     // 包含了动态大小类型信息和携带了长度信息的指针，叫做胖指针（Fat Pointer）, &str是一种胖指针
@@ -56,6 +71,8 @@ fn main() {
     vec![(); 20].into_iter().for_each(|i| print!("{:?}", i));
     // 在一些需要迭代次数的场合中，使用vec![(); 10]这种方式能获得较高的性能，
     // 因为Vec内部迭代器会针对ZST类型做一些优化
+
+    void_enum();
 }
 
 fn reset(arr: &mut [u32]) {
@@ -70,4 +87,28 @@ struct Baz {
     foo: Foo,
     qux: (),
     bza: [u8; 0],
+}
+
+fn loop_bang_type() -> ! {
+    loop {
+        println!("jh");
+    }
+}
+
+fn if_bang_type() {
+    let i = if false {
+        // bang type return this case, though it never reach
+        loop_bang_type()
+    } else {
+        100
+    };
+    assert_eq!(i, 100);
+}
+
+fn void_enum() {
+    let res: Result<u32, Void> = Ok(0);
+    // let Ok(num) = res;
+    if let Ok(num) = res {
+        println!("{}", num);
+    }
 }
