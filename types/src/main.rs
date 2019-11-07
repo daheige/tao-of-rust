@@ -35,6 +35,8 @@
 //! if分支中如果包含了永远无法返回的情况，那么此时也属于Bottom Type的一种
 //! 空枚举 enum Void{} 完全没有任何成员，因而无法对其变量进行绑定和初始化，所以它也是 Bottom Type
 //!
+//! Rust中的类型推导只能在局部范围内进行推导
+//!
 
 fn main() {
     // 包含了动态大小类型信息和携带了长度信息的指针，叫做胖指针（Fat Pointer）, &str是一种胖指针
@@ -73,6 +75,21 @@ fn main() {
     // 因为Vec内部迭代器会针对ZST类型做一些优化
 
     void_enum();
+
+    turbofish();
+}
+
+fn turbofish() {
+    let x = "1";
+    let int_x: i32 = x.parse().unwrap();
+    println!("{:?}", int_x);
+
+    // turbofish operation ::<i32>
+    assert_eq!(x.parse::<i32>().unwrap(), 1);
+
+    let a: i32 = 0;
+    // a需要类型声明，因为这里Rust没有真正推导出a的类型
+    let a_pos = a.is_positive();
 }
 
 fn reset(arr: &mut [u32]) {
