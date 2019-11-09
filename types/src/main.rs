@@ -38,6 +38,7 @@
 //! Rust中的类型推导只能在局部范围内进行推导
 
 mod generics;
+mod traits;
 
 fn main() {
     // 包含了动态大小类型信息和携带了长度信息的指针，叫做胖指针（Fat Pointer）, &str是一种胖指针
@@ -57,6 +58,9 @@ fn main() {
     // 普通指针，占8个字节
     assert_eq!(std::mem::size_of::<&[u32; 5]>(), 8);
     // 胖指针，占16个字节
+    assert_eq!(std::mem::size_of::<&[u32]>(), 16);
+
+    assert_eq!(std::mem::size_of::<&mut [u32; 5]>(), 8);
     assert_eq!(std::mem::size_of::<&mut [u32]>(), 16);
 
     assert_eq!(std::mem::size_of::<()>(), 0);
